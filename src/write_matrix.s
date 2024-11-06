@@ -63,6 +63,15 @@ write_matrix:
 
     # mul s4, s2, s3   # s4 = total elements
     # FIXME: Replace 'mul' with your own implementation
+    li s4, 0
+mul_start:
+    andi t5, s3, 1
+    beqz t5, mul_end
+    add s4, s4, s2
+mul_end:
+    slli s2, s2, 1
+    srli s3, s3, 1
+    bnez s3, mul_start
 
     # write matrix data to file
     mv a0, s0

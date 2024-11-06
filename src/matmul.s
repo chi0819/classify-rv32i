@@ -116,6 +116,13 @@ inner_loop_start:
     
 inner_loop_end:
     # TODO: Add your own implementation
+    addi s0, s0, 1   # increase outer loop countet, go to next row of result matrix
+    add s3, s3, a2   # add a2 (column count) to M0, go to next row of M0 matrix
+    addi s4, s4, 1   # increase M1, go to next column of M1
+    blt s0, a5, outer_loop_start # column number of M1 is the number of elements in result matrix row
+outer_loop_end:
+    li a0, 10
+    ecall
 
 error:
     li a0, 38

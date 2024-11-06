@@ -37,10 +37,24 @@ dot:
 loop_start:
     bge t1, a2, loop_end
     # TODO: Add your own implementation
-
+    lw t2, 0(a0)
+    lw t3, 0(a1)
+loop_mul:
+    andi t4, t3, 1
+    beqz t4, end_mul
+    add t0, t0, t2
+end_mul:
+    slli t2, t2, 1
+    srli t3, t3, 1
+    bnez t3, loop_mul
+finished_mul:
+    add a0, a0, a3
+    add a1, a1, a2
+    addi t1, t1, 1
 loop_end:
-    mv a0, t0
-    jr ra
+    mv a1, t0
+    li a0, 10
+    ecall
 
 error_terminate:
     blt a2, t0, set_error_36
