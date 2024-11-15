@@ -116,13 +116,21 @@ inner_loop_start:
     
 inner_loop_end:
     # TODO: Add your own implementation
-    addi s0, s0, 1   # increase outer loop countet, go to next row of result matrix
-    add s3, s3, a2   # add a2 (column count) to M0, go to next row of M0 matrix
-    addi s4, s4, 1   # increase M1, go to next column of M1
-    blt s0, a5, outer_loop_start # column number of M1 is the number of elements in result matrix row
+    slli t0, a2, 2    # colum count = offset of row, slli 2 because byte address
+    add s3, s3, t0    # go to next row of M0
+    addi s0, s0, 1    # go to next column of M1
+    j outer_loop_start
 outer_loop_end:
-    li a0, 10
-    ecall
+    # Epilogue
+    lw ra, 0(sp)
+    lw s0, 4(sp)
+    lw s1, 8(sp)
+    lw s2, 12(sp)
+    lw s3, 16(sp)
+    lw s4, 20(sp)
+    lw s5, 24(sp)
+    addi sp, sp, 28
+    jr ra               
 
 error:
     li a0, 38

@@ -25,25 +25,26 @@ argmax:
     li t6, 1
     blt a1, t6, handle_error
 
-    lw t0, 0(a0)
+    lw t0, 0(a0)  # Record largest value
 
-    li t1, 0
-    li t2, 1
+    li t1, 0            # Record largest value index
+    li t2, 0            # Record current value index
+    addi a1, a1, -1     # Due to 0 based
 loop_start:
     # TODO: Add your own implementation
-    addi a0, a0, 4
-    lw t3, 0(a0)
-    bge t0, t3, next
-    mv t0, t3
-    mv t1, t2
-next:
-    addi t2, t2, 1
-    blt t2, a1, loop_start
+    beq a1, t2, return  # Compare current value index and number of elements
+    addi t2, t2, 1      # Go to next value index
+    addi a0, a0, 4      # Move to next value address
+    lw t3, 0(a0)        # Load next value
+    bge t0, t3, loop_start   # Check whether current value is bigger or not
+swap:
+    mv t0, t3  # Change largest value to current value
+    mv t1, t2  # Change largest value index to current value index
+    j loop_start  # Continue
 return:
-    mv a1, t1
-    li a0, 10
-    ecall
-    
+    mv a0, t1  # Set the return data as largest value index
+    jr ra
+
 
 handle_error:
     li a0, 36

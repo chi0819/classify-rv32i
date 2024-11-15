@@ -19,11 +19,11 @@ abs:
     ebreak
     # Load number from memory
     lw t0 0(a0)
-    bge t0, zero, done
+    bge t0, zero, done    # If the value is positive, directly return
 
     # TODO: Add your own implementation
-    sub t0, zero, t0
-    sw t0, 0(a0)
+    sub t0, zero, t0      # Make the negative value become positive
+    sw t0, 0(a0)          # Write back the value
 
 done:
     # Epilogue

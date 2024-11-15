@@ -31,11 +31,11 @@ loop_start:
     # TODO: Add your own implementation
     lw t2, 0(a0)
     bge t2, zero, next
-    sw zero, 0(a0)
+    sw zero, 0(a0)   # If negative value then store 0
 next:
-    addi a1,a1, -1
-    addi a0, a0, 4
-    blt zero, a1, loop_start
+    addi a1,a1, -1   # Decrease counter
+    addi a0, a0, 4   # go to next value address
+    blt zero, a1, loop_start  # If not last value then continue
 return:
     ret
 
